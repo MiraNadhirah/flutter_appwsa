@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:html';
 
-import 'package:android_intent/android_intent.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
