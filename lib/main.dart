@@ -6,10 +6,7 @@ import 'package:flutter_wsa/registerLogin/first_view.dart';
 import 'package:flutter_wsa/registerLogin/sign_up_view.dart';
 import 'package:flutter_wsa/services/auth_service.dart';
 import 'package:flutter_wsa/services/custom_colors.dart';
-import 'package:flutter_wsa/widget/provider_widget.dart';
-
-import 'package:sms/sms.dart';
-
+import 'package:flutter_wsa/widget/provider_widget.dart'; 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
