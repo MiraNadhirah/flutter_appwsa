@@ -4,6 +4,7 @@ import 'package:flutter_wsa/contact_data.dart';
 import 'package:flutter_wsa/firestore_service.dart';
 import 'package:flutter_wsa/services/auth_service.dart';
 import 'package:flutter_wsa/widget/provider_widget.dart';
+import 'package:flutter/services.dart';
 
 class AddContactPage extends StatefulWidget {
   final Contact contact;
@@ -60,19 +61,23 @@ class _AddContactPageState extends State<AddContactPage> {
                   return null;
                 },
                 decoration: InputDecoration(
-                  labelText: "name",
+                  labelText: "Name",
                   border: OutlineInputBorder(),
+                  icon: Icon(Icons.people),
                 ),
               ),
               const SizedBox(height: 10.0),
               TextFormField(
                 focusNode: _phoneNoNode,
                 controller: _phoneNoController,
-                maxLines: 4,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+                ],
                 decoration: InputDecoration(
-                  labelText: "Phone Number",
-                  border: OutlineInputBorder(),
-                ),
+                    labelText: "Phone Number",
+                    border: OutlineInputBorder(),
+                    icon: Icon(Icons.phone_iphone)),
               ),
               const SizedBox(height: 10.0),
               RaisedButton(
