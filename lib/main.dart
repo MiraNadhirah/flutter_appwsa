@@ -6,7 +6,8 @@ import 'package:flutter_wsa/registerLogin/first_view.dart';
 import 'package:flutter_wsa/registerLogin/sign_up_view.dart';
 import 'package:flutter_wsa/services/auth_service.dart';
 import 'package:flutter_wsa/services/custom_colors.dart';
-import 'package:flutter_wsa/widget/provider_widget.dart'; 
+import 'package:flutter_wsa/widget/provider_widget.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -45,6 +46,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return Provider(
       auth: AuthService(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "WSA",
         theme: ThemeData(
           primarySwatch: Colors.pink,

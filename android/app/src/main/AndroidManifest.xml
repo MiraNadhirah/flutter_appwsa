@@ -13,7 +13,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter_wsa"
+        android:label="Women Diamond"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

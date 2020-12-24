@@ -20,6 +20,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+
+  
 dependencies:
   flutter:
     sdk: flutter
@@ -28,27 +30,29 @@ dependencies:
   cloud_firestore: ^0.14.0
   firebase_auth: ^0.18.2
   sms: ^0.2.4
-
-  
   geolocator: ^6.1.8
-  
-  get: ^3.10.2
-  #location: ^3.0.1
+  url_launcher: ^5.7.2
   permission_handler: ^4.4.0+hotfix.2
   audioplayers: ^0.16.0
-  #google_maps_flutter: ^0.5.21+8
   android_intent: ^0.3.6+12
-
-
   auto_size_text: ^2.0.2
-  
-  flutter_spinkit: ^3.1.0
+  #quick_actions: ^0.4.0+10
   flutter_auth_buttons: ^0.5.0
-
   geocoder:
   google_maps_flutter: ^0.5.30
   location: ^3.0.2
-  
+
+  flutter_launcher_icons: "^0.8.0"
+  flutter_launcher_name: "^0.0.1"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+
+flutter_launcher_name:
+  name: "Women Diamond"
+
   
 
 dev_dependencies:
@@ -56,8 +60,10 @@ dev_dependencies:
     sdk: flutter
 
 
+
 flutter:
   uses-material-design: true
   assets:
     - images/women.jpeg
-    - images/logo.png
+    - assets/logo.png
+    - assets/

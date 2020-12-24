@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_wsa/launcher.dart';
 import 'package:flutter_wsa/locations.dart';
+import 'package:flutter_wsa/tips.dart';
 import 'package:geocoder/geocoder.dart';
-//import 'package:flutter_wsa/location_test.dart';
 import 'package:geolocator/geolocator.dart';
 import 'contact.dart';
 import 'contact_data.dart';
@@ -25,6 +27,7 @@ class _DashboardState extends State<Dashboard> {
 
   Timer timer;
   String myId;
+  AudioCache audioCache = AudioCache();
 
   Widget build(BuildContext context) {
     myId = Provider.of(context).auth.getCurrentUID();
@@ -34,12 +37,22 @@ class _DashboardState extends State<Dashboard> {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.purple[900],
           actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Tips()),
+                );
+              },
+            ),
             FlatButton(
               textColor: Colors.white,
               child: const Text("LOGOUT"),
               onPressed: () {
                 _signOut().whenComplete(() {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyApp()));
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => MyApp()));
                 });
               },
             )
@@ -49,7 +62,7 @@ class _DashboardState extends State<Dashboard> {
           color: primaryColor,
           child: Column(children: <Widget>[
             Image(
-              image: AssetImage('images/logo.png'),
+              image: AssetImage('assets/logo.png'),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,12 +74,12 @@ class _DashboardState extends State<Dashboard> {
                       minWidth: 100.0,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: new Text("My Profile"),
+                      child: new Text("Self Defence \n\t\t\t\t\tVideos"),
                       onPressed: () => {
-                        // Navigator.push(
-                        // context,
-                        // MaterialPageRoute(builder: (context) => Profile()),
-                        // )
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Launcher()),
+                        )
                       },
                       splashColor: Colors.grey,
                     )),
@@ -84,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
                           MaterialPageRoute(builder: (context) => HomePage()),
                         ),
                       },
-                      splashColor: Colors.redAccent,
+                      splashColor: Colors.blueAccent,
                     )),
               ],
             ),
@@ -98,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
                       minWidth: 100.0,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: new Text("LOCATION"),
+                      child: new Text("Location"),
                       onPressed: () => {
                         Navigator.push(
                           context,
@@ -107,34 +120,44 @@ class _DashboardState extends State<Dashboard> {
                       },
                       splashColor: Colors.redAccent,
                     )),
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-                  Padding(
-                      padding: EdgeInsets.all(12.0),
-                      child: new MaterialButton(
-                        height: 100.0,
-                        minWidth: 100.0,
-                        color: Theme.of(context).primaryColor,
-                        textColor: Colors.white,
-                        child: new Text("SOS"),
-                        onPressed: () async {
-                          if (timer == null || !timer.isActive) {
-                            timer = Timer.periodic(Duration(seconds: 5), (timer) async {
-                              print("Sending");
-                              print(DateTime.now());
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: new MaterialButton(
+                            height: 100.0,
+                            minWidth: 100.0,
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: new Text("SOS"),
+                            onPressed: () async {
+                              if (timer == null || !timer.isActive) {
+                                await _getCurrentLocation();
 
-                              await _getCurrentLocation();
-                              if (_currentAddress == null) return;
-                              sendMessage("$_currentAddress\nhttp://www.google.com/maps/place/${_currentPosition.latitude},${_currentPosition.longitude}");
-                            });
-                          } else {
-                            timer.cancel();
-                            //sendMessage("Ding Dong");
-                          }
-                          // sendMessage(return launch(body:"hello"),_sendsms(number),);
-                        },
-                        splashColor: Colors.redAccent,
-                      )),
-                ])
+                                sendMessage(
+                                    "I am in danger, this is my current location $_currentAddress\nhttp://www.google.com/maps/place/${_currentPosition.latitude},${_currentPosition.longitude}");
+                                timer = Timer.periodic(Duration(seconds: 120),
+                                    (timer) async {
+                                  print("Sending");
+                                  print(DateTime.now());
+
+                                  await _getCurrentLocation();
+                                  if (_currentAddress == null) return;
+                                  sendMessage(
+                                      "I am in danger, this is my current location $_currentAddress\nhttp://www.google.com/maps/place/${_currentPosition.latitude},${_currentPosition.longitude}");
+                                });
+                                audioCache.load('siren.mp3');
+                                audioCache.play('siren.mp3');
+                              } else {
+                                timer.cancel();
+                                //sendMessage("Ding Dong");
+                              }
+                              // sendMessage(return launch(body:"hello"),_sendsms(number),);
+                            },
+                            splashColor: Colors.redAccent,
+                          )),
+                    ])
               ],
             )
           ]),
@@ -154,7 +177,8 @@ class _DashboardState extends State<Dashboard> {
   String _currentAddress;
 
   Future _getCurrentLocation() async {
-    var position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
 
     _currentPosition = position;
     if (mounted) setState(() {});
@@ -176,11 +200,13 @@ class _DashboardState extends State<Dashboard> {
         return;
       }
 
-      var p = await Geocoder.local.findAddressesFromCoordinates(Coordinates(_currentPosition.latitude, _currentPosition.longitude));
+      var p = await Geocoder.local.findAddressesFromCoordinates(
+          Coordinates(_currentPosition.latitude, _currentPosition.longitude));
 
       var place = p.first;
 
-      _currentAddress = "${place.locality}, ${place.postalCode}, ${place.countryName}";
+      _currentAddress =
+          "${place.locality}, ${place.postalCode}, ${place.countryName}";
       if (mounted) setState(() {});
     } on PlatformException catch (e) {
       print(e);
