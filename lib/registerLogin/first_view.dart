@@ -22,11 +22,12 @@ class FirstView extends StatelessWidget {
               SizedBox(height: _height * 0.10),
               Text(
                 "Welcome to Women Diamond",
+                textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 44, color: Colors.white),
               ),
               SizedBox(height: _height * 0.10),
               AutoSizeText(
-                "Let’s start planning your next trip",
+                "Stay Safe",
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 style: TextStyle(

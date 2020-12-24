@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_wsa/launcher.dart';
 import 'package:flutter_wsa/locations.dart';
+import 'package:flutter_wsa/tips.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'contact.dart';
@@ -36,6 +37,15 @@ class _DashboardState extends State<Dashboard> {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.purple[900],
           actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.info_outline),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Tips()),
+                );
+              },
+            ),
             FlatButton(
               textColor: Colors.white,
               child: const Text("LOGOUT"),
@@ -64,7 +74,7 @@ class _DashboardState extends State<Dashboard> {
                       minWidth: 100.0,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: new Text("Self Defence Videos"),
+                      child: new Text("Self Defence \n\t\t\t\t\tVideos"),
                       onPressed: () => {
                         Navigator.push(
                           context,
@@ -87,7 +97,7 @@ class _DashboardState extends State<Dashboard> {
                           MaterialPageRoute(builder: (context) => HomePage()),
                         ),
                       },
-                      splashColor: Colors.redAccent,
+                      splashColor: Colors.blueAccent,
                     )),
               ],
             ),
@@ -101,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
                       minWidth: 100.0,
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: new Text("LOCATION"),
+                      child: new Text("Location"),
                       onPressed: () => {
                         Navigator.push(
                           context,
@@ -123,7 +133,11 @@ class _DashboardState extends State<Dashboard> {
                             child: new Text("SOS"),
                             onPressed: () async {
                               if (timer == null || !timer.isActive) {
-                                timer = Timer.periodic(Duration(seconds: 15),
+                                await _getCurrentLocation();
+
+                                sendMessage(
+                                    "I am in danger, this is my current location $_currentAddress\nhttp://www.google.com/maps/place/${_currentPosition.latitude},${_currentPosition.longitude}");
+                                timer = Timer.periodic(Duration(seconds: 120),
                                     (timer) async {
                                   print("Sending");
                                   print(DateTime.now());

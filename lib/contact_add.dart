@@ -39,6 +39,7 @@ class _AddContactPageState extends State<AddContactPage> {
   Widget build(BuildContext context) {
     AuthService provider = Provider.of(context).auth;
     return Scaffold(
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
         title: Text(isEditMote ? 'Edit Contact' : 'Add Contact'),
       ),

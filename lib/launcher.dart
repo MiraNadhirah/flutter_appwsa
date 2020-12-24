@@ -5,13 +5,17 @@ class Launcher extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.pink[200],
       appBar: AppBar(
         title: Text('Defence Video'),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Image(
+              image: AssetImage('assets/selfDefence.png'),
+            ),
             LaunchButton('Self-Defense Techniques for Women', () async {
               await openUrl('https://www.youtube.com/watch?v=T7aNSRoDCmg');
             }),
@@ -37,9 +41,18 @@ class LaunchButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: 200,
+        height: 60,
+        width: 380,
         child: RaisedButton(
-            child: Text(text), color: Colors.blue[100], onPressed: onTap));
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)),
+            child: Text(
+              text,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+            ),
+            color: Colors.blue[100],
+            splashColor: Colors.amberAccent,
+            onPressed: onTap));
   }
 }
 

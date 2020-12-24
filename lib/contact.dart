@@ -26,8 +26,14 @@ class HomePage extends StatelessWidget {
               Contact contact = snapshot.data[index];
 
               return ListTile(
-                title: Text(contact.contactName),
-                subtitle: Text(contact.phoneNo),
+                title: Text(
+                  contact.contactName,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Text(
+                  contact.phoneNo,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
