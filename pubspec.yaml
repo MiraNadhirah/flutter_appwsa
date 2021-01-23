@@ -37,8 +37,10 @@ dependencies:
   geolocator: ^6.1.8
   google_maps_flutter: ^0.5.30 
   permission_handler: ^4.4.0+hotfix.2
-  sms: ^0.2.4
+  sms: ^0.2.4 #ini dipakai?
+  flutter_sms: ^2.1.1
   url_launcher: ^5.7.2
+  
 
 flutter_icons:
   android: true

@@ -4,7 +4,7 @@ import 'package:flutter_wsa/services/auth_service.dart';
 import 'package:flutter_wsa/widget/provider_widget.dart';
 
 // TODO move this to tone location
-final primaryColor = const Color(0xFF75A2EA);
+final primaryColor = const Color(0xFF303F9F);
 
 enum AuthFormType { signIn, signUp, reset }
 
@@ -57,6 +57,8 @@ class _SignUpViewState extends State<SignUpView> {
         if (authFormType == AuthFormType.signIn) {
           String uid = await auth.signInWithEmailAndPassword(_email, _password);
           print("Signed In with ID $uid");
+          print(_email);
+          print(_password);
           Navigator.of(context).pushReplacementNamed('/home');
         } else if (authFormType == AuthFormType.reset) {
           await auth.sendPasswordResetEmail(_email);
@@ -69,6 +71,8 @@ class _SignUpViewState extends State<SignUpView> {
           String uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
           print("Signed up with New ID $uid");
+          print(_email);
+          print(_password);
           Navigator.of(context).pushReplacementNamed('/home');
         }
       } catch (e) {

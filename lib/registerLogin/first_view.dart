@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_wsa/widget/custom_dialog.dart';
 
 class FirstView extends StatelessWidget {
-  final primaryColor = const Color(0xFF75A2EA);
+  final primaryColor = const Color(0xFF303F9F);
 
   @override
   Widget build(BuildContext context) {

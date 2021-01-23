@@ -161,15 +161,15 @@ class _LocationState extends State<Location> {
                         children: <Widget>[
                           mapButton(_onAddMarkerButtonPressed,
                               Icon(Icons.add_location), Colors.blue),
-                          mapButton(
-                              _onMapTypeButtonPressed,
-                              Icon(
-                                IconData(0xf473,
-                                    fontFamily: CupertinoIcons.iconFont,
-                                    fontPackage:
-                                        CupertinoIcons.iconFontPackage),
-                              ),
-                              Colors.green),
+                          // mapButton(
+                          //     _onMapTypeButtonPressed,
+                          //     Icon(
+                          //       IconData(0xf473,
+                          //           fontFamily: CupertinoIcons.iconFont,
+                          //           fontPackage:
+                          //               CupertinoIcons.iconFontPackage),
+                          //     ),
+                          //     Colors.green),
                         ],
                       )),
                 )

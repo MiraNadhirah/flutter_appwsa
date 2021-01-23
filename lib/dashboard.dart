@@ -3,6 +3,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sms/flutter_sms_web.dart';
 import 'package:flutter_wsa/launcher.dart';
 import 'package:flutter_wsa/locations.dart';
 import 'package:flutter_wsa/tips.dart';
@@ -12,6 +13,7 @@ import 'contact.dart';
 import 'contact_data.dart';
 import 'firestore_service.dart';
 import 'main.dart';
+import 'package:flutter/widgets.dart';
 import 'widget/provider_widget.dart';
 import 'package:sms/sms.dart';
 
@@ -32,6 +34,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     myId = Provider.of(context).auth.getCurrentUID();
     return Scaffold(
+        backgroundColor: primaryColor,
         appBar: AppBar(
           title: Text("MENU"),
           automaticallyImplyLeading: false,
@@ -58,8 +61,7 @@ class _DashboardState extends State<Dashboard> {
             )
           ],
         ),
-        body: Container(
-          color: primaryColor,
+        body: SingleChildScrollView(
           child: Column(children: <Widget>[
             Image(
               image: AssetImage('assets/logo.png'),
@@ -137,7 +139,7 @@ class _DashboardState extends State<Dashboard> {
 
                                 sendMessage(
                                     "I am in danger, this is my current location $_currentAddress\nhttp://www.google.com/maps/place/${_currentPosition.latitude},${_currentPosition.longitude}");
-                                timer = Timer.periodic(Duration(seconds: 120),
+                                timer = Timer.periodic(Duration(seconds: 30),
                                     (timer) async {
                                   print("Sending");
                                   print(DateTime.now());
@@ -166,6 +168,12 @@ class _DashboardState extends State<Dashboard> {
 
   void sendMessage(String message) async {
     List<Contact> contacts = await FirestoreService().getContacts(myId);
+
+    //FlutterSmsPlugin sms = FlutterSmsPlugin();
+    //contacts.forEach((element) {
+    //sms.sendSMS(
+    //    message: message, recipients: contacts.map((e) => e.phoneNo).toList());
+    //});
     SmsSender sms = SmsSender();
     contacts.forEach((element) {
       sms.sendSms(SmsMessage(element.phoneNo, message));
